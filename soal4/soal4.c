@@ -1,16 +1,3 @@
-/*
- * mkdir /home/pristiz/Documents/FolderProses1/
- * mkdir /home/pristiz/Documents/FolderProses2/
- * ps -aux | head -11 | tail -10 > /home/pristiz/Documents/FolderProses1/SimpanProses1.txt
- * ps -aux | head -11 | tail -10 > /home/pristiz/Documents/FolderProses2/SimpanProses2.txt
- * zip -j /home/pristiz/Documents/FolderProses1/KompresProses1.zip /home/pristiz/Documents/FolderProses1/SimpanProses1.txt
- * zip -j /home/pristiz/Documents/FolderProses2/KompresProses2.zip /home/pristiz/Documents/FolderProses2/SimpanProses2.txt
- * rm -f /home/pristiz/Documents/FolderProses1/SimpanProses1.txt
- * rm -f /home/pristiz/Documents/FolderProses2/SimpanProses2.txt
- * unzip /home/pristiz/Documents/FolderProses1/KompresProses1.zip -d /home/pristiz/Documents/FolderProses1/
- * unzip /home/pristiz/Documents/FolderProses2/KompresProses2.zip -d /home/pristiz/Documents/FolderProses2/
-*/
-
 #include<stdio.h>
 #include<string.h>
 #include<pthread.h>
