@@ -1,7 +1,18 @@
 # SoalShift_modul3_E01
 
 ### Soal 1
+```c
 
+```
+### Soal 2
+```c
+
+```
+### Soal 3
+```c
+
+```
+### Soal 4
 - Menyimpan file SimpanProses1.txt di direktori /home/pristiz/Documents/FolderProses1/
 
 ```c
@@ -69,18 +80,7 @@ void* unzip2(void *arg)
     system("unzip /home/pristiz/Documents/FolderProses2/KompresProses2.zip -d /home/pristiz/Documents/FolderProses2/");
 }
 ```
-### Soal 2
-```c
 
-```
-### Soal 3
-```c
-
-```
-### Soal 4
-```c
-
-```
 ### Soal 5
 ```c
 
