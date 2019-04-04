@@ -5,16 +5,73 @@
 
 ```
 ### Soal 2
+- 1 server hanya bisa terkoneksi dengan 1 client
 ```c
+listen(server_fd, 1)
+```
+- Server penjual dan server pembeli memiliki stok barang yang selalu sama (menggunakan _shared memory_)
+```c
+int *stok;
+
+int shmid = shmget(key, sizeof(int), IPC_CREAT | 0666);
+stok = shmat(shmid, NULL, 0);
+
+shmdt(stok);
+shmctl(shmid, IPC_RMID, NULL);
+```
+- Penambahan stok pada server penjual
+```c
+while(1){        
+    char buffer[1024] = {0};
+    char *msg;
+    int valread = read( new_socket , buffer, 1024);
+    if(strcmp(buffer,"tambah")==0){
+        *stok += 1;
+    }
+}
 
 ```
+- Pengurangan stok pada server pembeli disertai pengiriman info ketersediaan stok ke client
+```c
+while(1){
+    char *msg;
+    char buffer[1024] = {0};
+    int valread = read( new_socket , buffer, 1024);
+    if(strcmp(buffer,"beli")==0){            
+        if (*stok == 0){                            //stok habis
+            msg = "0";
+        } 
+        else {                                      //stok masih ada
+            *stok -= 1;
+            msg = "1";
+        }
+        send(new_socket , msg, sizeof(msg) , 0 );   //info ketersediaan stok
+    }
+}
+```
+- Client (melakukan input serta jika terkoneksi dengan server pembeli, akan mencetak status transaksi)
+```c
+while(1){
+    char *msg;
+    char buffer[1024] = {0};
+    scanf("%s",msg);
+    send(sock , msg , sizeof(msg) , 0 );
+    if(strcmp(msg,"beli")==0){
+        int valread = read( sock , buffer, sizeof(buffer));
+        printf("transaksi ");
+        if(strcmp(buffer,"0")==0) printf("gagal\n");
+        else printf("berhasil\n");
+    }
+}
+```
+
 ### Soal 3
+- 
 ```c
-
 ```
+
 ### Soal 4
 - Menyimpan file SimpanProses1.txt di direktori /home/pristiz/Documents/FolderProses1/
-
 ```c
 void* simpan1(void *arg)
 {
@@ -79,6 +136,26 @@ void* unzip2(void *arg)
     while(rm2 != 1);
     system("unzip /home/pristiz/Documents/FolderProses2/KompresProses2.zip -d /home/pristiz/Documents/FolderProses2/");
 }
+```
+- Menunggu selama 15 detik lalu mengekstrak kembali file KompresProses1.zip dan KompresProses2.zip
+```c
+pthread_create(&(tid1), NULL, simpan1, NULL);
+pthread_create(&(tid2), NULL, simpan2, NULL);
+pthread_join(tid1, NULL);
+pthread_join(tid2, NULL);
+
+pthread_create(&(tid3), NULL, zip1, NULL);
+pthread_create(&(tid4), NULL, zip2, NULL);
+pthread_join(tid3, NULL);
+pthread_join(tid4, NULL);
+
+printf("Menunggu 15 detik untuk mengekstrak kembali\n");
+sleep(15);
+
+pthread_create(&(tid5), NULL, unzip1, NULL);
+pthread_create(&(tid6), NULL, unzip2, NULL);    
+pthread_join(tid5, NULL);
+pthread_join(tid6, NULL);
 ```
 
 ### Soal 5
