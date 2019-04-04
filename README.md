@@ -21,15 +21,34 @@ shmctl(shmid, IPC_RMID, NULL);
 ```
 - Penambahan stok pada server penjual
 ```c
-while(1){        
-    char buffer[1024] = {0};
-    char *msg;
-    int valread = read( new_socket , buffer, 1024);
-    if(strcmp(buffer,"tambah")==0){
-        *stok += 1;
+void *add() {
+    while(1){        
+        char buffer[1024] = {0};
+        char *msg;
+        int valread = read( new_socket , buffer, 1024);
+        if(strcmp(buffer,"tambah")==0){
+            *stok += 1;
+        }
     }
 }
+```
+- Pencetakan stok saat ini setiap 5 detik sekali pada server penjual
+```c
+void *now() {
+    while(1){
+        printf("stok saat ini: %d\n",*stok);
+        sleep(5);
+    }
+}
+```
+- Penggunaan _thread_ pada server penjual sehingga kedua fungsi di atas dapat dijalankan secara bersamaan
+```c
+pthread_t tid1, tid2;
 
+pthread_create(&(tid1), NULL, now, NULL);
+pthread_create(&(tid2), NULL, add, NULL);
+pthread_join(tid1, NULL);
+pthread_join(tid2, NULL);
 ```
 - Pengurangan stok pada server pembeli disertai pengiriman info ketersediaan stok ke client
 ```c
