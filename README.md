@@ -8,7 +8,9 @@ for(i=1; i<argc; i++){
     num[i-1] = atoi(argv[i]);
 }
 ```
-- Thread untuk penghitungan faktorial (`sleep()` dijalankan selama angka tersebut supaya output terurut dengan sendirinya)
+- Thread untuk penghitungan faktorial
+
+`sleep()` dijalankan selama angka `num[i]` supaya output terurut dengan sendirinya.
 ```c
 int ind = -1;
 void *thread() {
@@ -118,8 +120,86 @@ while(1){
 ```
 
 ### Soal 3
-- 
+- Awal program
 ```c
+int agmal_WakeUp_Status = 0;
+int iraj_Spirit_Status = 100;
+```
+- Fitur All Status
+```c
+printf("Agmal WakeUp_Status = %d\nIraj Spirit_Status = %d\n", agmal_WakeUp_Status, iraj_Spirit_Status);
+```
+- Fitur “Agmal Ayo Bangun”
+```c
+cmd_agmal = -1;
+strike++;
+agmal_WakeUp_Status += 15;
+```
+- Fitur “Iraj Ayo Tidur”
+```c
+cmd_iraj = -1;
+strike++;
+iraj_Spirit_Status -= 20;
+```
+- Jika fitur “Agmal Ayo Bangun” dijalankan sebanyak 3 kali,
+```c
+if (strike >= 3)
+{
+    while (cmd_iraj > 0);
+    if(cmd_iraj == -1){
+        cmd_iraj = 2;
+        strike = 0;
+    }
+}
+```
+
+Maka fitur “Iraj Ayo Tidur” tidak bisa dijalankan selama 10 detik.
+```c
+cmd_iraj = 0;
+printf("Fitur Iraj Ayo Tidur disabled 10 s\n");
+sleep(10);
+cmd_iraj = -1;
+```
+- Jika fitur “Iraj Ayo Tidur” dijalankan sebanyak 3 kali,
+```c
+if (strike >= 3)
+{
+    while (cmd_agmal > 0);
+    if(cmd_agmal == -1){
+        cmd_agmal = 2;
+        strike = 0;
+    }
+}
+```
+
+Maka fitur “Agmal Ayo Bangun” tidak bisa dijalankan selama 10 detik.
+```c
+cmd_agmal = 0;
+printf("Agmal Ayo Bangun disabled 10 s\n");
+sleep(10);
+cmd_agmal = -1;
+```
+- Program berhenti
+
+WakeUp_Status Agmal >= 100
+```c
+if(agmal_WakeUp_Status >= 100){
+    printf("Agmal Terbangun,mereka bangun pagi dan berolahraga\n");
+    exit(0);
+}
+```
+
+Spirit_Status Iraj <= 0
+```c
+if(iraj_Spirit_Status <= 0){
+    printf("Iraj ikut tidur, dan bangun kesiangan bersama Agmal\n");
+    exit(0);
+}
+```
+- Penggunaan _thread_
+```c
+pthread_create(&agmalt, NULL, &agmal, NULL);
+pthread_create(&irajt, NULL, &iraj, NULL);
 ```
 
 ### Soal 4
