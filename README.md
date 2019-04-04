@@ -68,7 +68,7 @@ while(1){
     }
 }
 ```
-- Client (melakukan input serta jika terkoneksi dengan server pembeli, akan mencetak status transaksi)
+- Client melakukan input (dan akan mencetak status transaksi jika terkoneksi dengan server pembeli)
 ```c
 while(1){
     char *msg;
