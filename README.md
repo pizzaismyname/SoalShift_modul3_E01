@@ -1,9 +1,43 @@
 # SoalShift_modul3_E01
 
 ### Soal 1
+- Menyimpan argumen input
 ```c
-
+int num[1000];
+for(i=1; i<argc; i++){
+    num[i-1] = atoi(argv[i]);
+}
 ```
+- Thread untuk penghitungan faktorial
+`sleep()` dijalankan selama angka tersebut supaya output terurut dengan sendirinya.
+```c
+int ind = -1;
+void *thread() {
+    int this = ++ind;
+
+    int i, fact = 1;
+    for (i=1; i<=num[this]; i++) {
+        fact *= i;
+    }
+
+    sleep(num[this]);
+    printf("%d! = %d\n", num[this], fact);
+}
+```
+- Membuat dan menggabungkan _thread_
+```c
+int n = argc - 1;
+pthread_t tid[n];
+
+for(i=0; i<n; i++){
+    pthread_create(&(tid[i]), NULL, &thread, NULL);
+}
+
+for(i=0; i<n; i++){
+    pthread_join(tid[i], NULL);
+}
+```
+
 ### Soal 2
 - 1 server hanya bisa terkoneksi dengan 1 client
 ```c
