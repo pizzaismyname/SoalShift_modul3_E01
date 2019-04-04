@@ -8,8 +8,7 @@ for(i=1; i<argc; i++){
     num[i-1] = atoi(argv[i]);
 }
 ```
-- Thread untuk penghitungan faktorial
-`sleep()` dijalankan selama angka tersebut supaya output terurut dengan sendirinya.
+- Thread untuk penghitungan faktorial (`sleep()` dijalankan selama angka tersebut supaya output terurut dengan sendirinya)
 ```c
 int ind = -1;
 void *thread() {
