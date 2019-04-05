@@ -41,6 +41,8 @@ static void init()
 }
 #pragma endregion Terminos
 
+char name[100];
+
 int monster_hunger = 200; //5/10, 0 kalah
 int monster_hygine = 100; //10/30, 0 kalah
 int monster_health = 300; //+5/10, 0 kalah
@@ -64,6 +66,7 @@ void *display()
     while (1)
     {
         system("clear");
+        printf("Nama monster: %s\n", name);
         if (view == 0)
         {
             printf("Standby Mode\n");
@@ -161,6 +164,8 @@ void setTimer()
 
 int main(void)
 {
+    printf("Nama monster: ");
+    scanf("%s",name);
     init();
     setTimer();
     //Main thread akan jadi input

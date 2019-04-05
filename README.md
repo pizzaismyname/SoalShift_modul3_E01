@@ -291,6 +291,243 @@ pthread_join(tid6, NULL);
 ```
 
 ### Soal 5
+- Memberi nama pada monster
 ```c
+char name[100];
+printf("Nama monster: ");
+scanf("%s",name);
+```
+- Hunger status
 
+Nilai awal 200 dan akan berkurang 5 tiap 10 detik.
+```c
+int monster_hunger = 200;
+while(1){
+    sleep(1);
+    if (c % 10 == 0)
+    {
+        //per 10 detik
+        monster_hunger -= 5;
+    }
+}
+```
+
+Hunger status bertambah 15 apabila pemain memberi makan kepada monster.
+```c
+monster_hunger += 15;
+```
+- Hygiene status
+
+Nilai awal 100 dan akan berkurang 10 tiap 30 detik.
+```c
+int monster_hygine = 100;
+while(1){
+    sleep(1);
+    if (c % 30 == 0)
+    {
+        //per 30 detik
+        monster_hygine -= 10;
+    }
+}
+```
+
+Hygiene status bertambah 30 apabila pemain memandikan monster.
+```c
+monster_hygine += 30;
+```
+
+Pemain dapat memandikan monster setiap 20 detik.
+```c
+while(1){
+    sleep(1);
+    if (bath_remaining < 20)
+    {
+        bath_remaining++;
+    }
+}
+
+if (bath_remaining >= 20)
+{
+    monster_hygine += 30;
+    bath_remaining = 0;
+    printf("Bathing!\n");
+}
+```
+- Health status
+
+Nilai awal 100 dan akan berkurang 5 tiap 10 detik ketika monster dalam keadaan standby.
+```c
+int monster_hygine = 100;
+while(1){
+    sleep(1);
+    if (c % 10 == 0)
+    {
+        //per 10 detik
+        monster_hygine -= 5;
+    }
+}
+```
+- Fitur battle
+```c
+int a = (int)getchar() - 48;
+if (a == 1)
+{
+    npc_health -= 20;
+    printf("Monster: ATTACK!!!\n");
+    if (npc_health <= 0)
+    {
+        printf("Monster: VICTORY!!!\n");
+        view = 0;
+        f_stop = 0;
+    }
+}
+else if (a == 2)
+{
+    printf("Monster: Later lah bro!!!\n");
+    view = 0;
+    f_stop = 0;
+}
+```
+- Fitur shop (pembeli)
+
+Mengecek stok makanan yang ada di toko.
+```c
+while(1){
+    system("clear");
+    printf("Shop Mode\n");
+    printf("Shop food stock : %d\n", *store_food);
+    printf("Your food stock : %d\n", food_stock);
+    printf("Choices\n[1] Buy\n[2] Back\n");
+    sleep(1);
+}
+```
+
+Jika stok ada, pembeli dapat membeli makanan.
+```c
+int a = (int)getchar() - 48;
+if (a == 1)
+{
+    if (*store_food > 0)
+    {
+        (*store_food)--;
+        food_stock++;
+        printf("$ $ $\n");
+    }
+    else
+    {
+        printf("X X X\n");
+    }
+}
+else if (a == 2)
+{
+    view = 0;
+    f_stop = 0;
+    shmdt(store_food);
+    shmctl(shmid, IPC_RMID, NULL);
+}
+```
+- Fitur shop (penjual)
+
+Mengecek stok makanan yang ada di toko.
+```c
+while (1)
+{
+    system("clear");
+    printf("Shop\n");
+    printf("Food stock : %d\n", *store_food);
+    printf("Choices\n[1] Restock\n[2] Exit\n");
+}
+```
+
+Penjual dapat menambah stok makanan.
+```c
+int a = (int)getchar() - 48;
+if (a == 1)
+{
+    (*store_food)++;
+    printf("+1\n");
+}
+else if (a == 2)
+{   
+    break;
+}
+```
+- Mendeteksi input berupa key press.
+```c
+#pragma region Terminos
+static struct termios g_old_kbd_mode;
+static int kbhit(void)
+{
+    struct timeval timeout;
+    fd_set read_handles;
+    int status;
+
+    FD_ZERO(&read_handles);
+    FD_SET(0, &read_handles);
+    timeout.tv_sec = timeout.tv_usec = 0;
+    status = select(0 + 1, &read_handles, NULL, NULL, &timeout);
+    return status;
+}
+static void old_attr(void)
+{
+    tcsetattr(0, TCSANOW, &g_old_kbd_mode);
+}
+static void init()
+{
+    //Set terminal supaya bisa nerima input keyboard tanpa enter
+    //Emulator fungsi kbhit()
+    struct termios new_kbd_mode;
+    tcgetattr(0, &g_old_kbd_mode);
+    memcpy(&new_kbd_mode, &g_old_kbd_mode, sizeof(struct termios));
+    new_kbd_mode.c_lflag &= ~(ICANON | ECHO);
+    new_kbd_mode.c_cc[VTIME] = 0;
+    new_kbd_mode.c_cc[VMIN] = 1;
+    tcsetattr(0, TCSANOW, &new_kbd_mode);
+    atexit(old_attr);
+}
+#pragma endregion Terminos
+```
+- Scene program
+
+Hanya menampilkan status detik ini menggunakan `system("clear")`.
+```c
+void *display()
+{
+    while (1)
+    {
+        system("clear");
+        printf("Nama monster: %s\n", name);
+        if (view == 0)
+        {
+            printf("Standby Mode\n");
+            printf("Health : %d\n", monster_health);
+            printf("Hunger : %d\n", monster_hunger);
+            printf("Hygiene : %d\n", monster_hygine);
+            printf("Food left : %d\n", food_stock);
+            if (bath_remaining < 20)
+            {
+                printf("Bath will be ready in %ds\n", (20 - bath_remaining));
+            }
+
+            printf("Choices\n[1] Eat\n[2] Bath\n[3] Battle\n[4] Shop\n[5] Exit\n");
+        }
+        else if (view == 1)
+        {
+            printf("Battle Mod\n");
+            printf("Monster’s Health : %d\n", monster_health);
+            printf("Enemy’s Health : %d\n", npc_health);
+
+            printf("Choices\n[1] Attack\n[2] Run\n");
+        }
+        else if (view == 2)
+        {
+            printf("Shop Mode\n");
+            printf("Shop food stock : %d\n", *store_food);
+            printf("Your food stock : %d\n", food_stock);
+
+            printf("Choices\n[1] Buy\n[2] Back\n");
+        }
+        sleep(1);
+    }
+}
 ```
