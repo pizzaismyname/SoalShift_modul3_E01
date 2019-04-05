@@ -44,6 +44,16 @@ for(i=0; i<n; i++){
 ```c
 listen(server_fd, 1)
 ```
+- Membedakan port penjual dengan port pembeli
+
+Port penjual (client dan server)
+```c
+#define PORT 8000
+```
+Port pembeli (client dan server)
+```c
+#define PORT 8080
+```
 - Server penjual dan server pembeli memiliki stok barang yang selalu sama (menggunakan _shared memory_)
 ```c
 int *stok;
@@ -110,12 +120,15 @@ while(1){
     char buffer[1024] = {0};
     scanf("%s",msg);
     send(sock , msg , sizeof(msg) , 0 );
+
+    // bagian ini hanya ditulis pada client beli
     if(strcmp(msg,"beli")==0){
         int valread = read( sock , buffer, sizeof(buffer));
         printf("transaksi ");
         if(strcmp(buffer,"0")==0) printf("gagal\n");
         else printf("berhasil\n");
     }
+
 }
 ```
 

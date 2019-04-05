@@ -6,9 +6,9 @@
 #include <unistd.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-#include<pthread.h>
+#include <pthread.h>
 
-#define PORT 8080
+#define PORT 8000
 
 key_t key = 1234;
 int *stok, new_socket;
