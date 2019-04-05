@@ -10,7 +10,7 @@ for(i=1; i<argc; i++){
 ```
 - Thread untuk penghitungan faktorial
 
-`sleep()` dijalankan selama angka `num[i]` supaya output terurut dengan sendirinya.
+`sleep()` dijalankan selama angka `num[this]` supaya output terurut dengan sendirinya.
 ```c
 int ind = -1;
 void *thread() {
