@@ -8,9 +8,16 @@ for(i=1; i<argc; i++){
     num[i-1] = atoi(argv[i]);
 }
 ```
-- Thread untuk penghitungan faktorial
+- Mengurutkan argumen-argumen input secara _ascending_
+```c
+int cmp (const void * a, const void * b) {
+   return ( *(int*)a - *(int*)b );
+}
 
-`sleep()` dijalankan selama angka `num[this]` supaya output terurut dengan sendirinya.
+qsort(num,n,sizeof(int),cmp);
+```
+
+- Thread untuk penghitungan faktorial
 ```c
 int ind = -1;
 void *thread() {
@@ -118,7 +125,7 @@ while(1){
 while(1){
     char *msg;
     char buffer[1024] = {0};
-    scanf("%s",msg);
+    gets(msg);
     send(sock , msg , sizeof(msg) , 0 );
 
     // bagian ini hanya ditulis pada client beli
@@ -214,6 +221,24 @@ if(iraj_Spirit_Status <= 0){
 pthread_create(&agmalt, NULL, &agmal, NULL);
 pthread_create(&irajt, NULL, &iraj, NULL);
 ```
+-Membaca input berupa _string_
+```c
+char str[17]; 
+gets(str); 
+int i;
+for(i = 0; str[i] != '\0'; i++) str[i] = tolower(str[i]);
+str[i] = '\0';
+if(strcmp(str,"agmal ayo bangun") == 0){
+    while (cmd_agmal > 0);
+    if(cmd_agmal == -1) cmd_agmal = 1;
+}else if(strcmp(str,"iraj ayo tidur") == 0){
+    while (cmd_iraj > 0);
+    if(cmd_iraj == -1) cmd_iraj = 1;
+}else if(strcmp(str,"all status") == 0){
+    printf("Agmal WakeUp_Status = %d\nIraj Spirit_Status = %d\n", agmal_WakeUp_Status, iraj_Spirit_Status);
+}
+```
+
 
 ### Soal 4
 - Menyimpan file SimpanProses1.txt di direktori /home/pristiz/Documents/FolderProses1/
@@ -392,7 +417,9 @@ if (a == 1)
         printf("Monster: VICTORY!!!\n");
         view = 0;
         f_stop = 0;
-    }
+    }					
+    monster_health -= 20;
+    printf("NPC: ATTACK!!!\n");
 }
 else if (a == 2)
 {
