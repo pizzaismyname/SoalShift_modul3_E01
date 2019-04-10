@@ -9,7 +9,7 @@
 
 #define PORT 8080
 
-key_t key = 1234;
+key_t key = 5678;
 
 int main(int argc, char const *argv[]) {
     
@@ -56,7 +56,7 @@ int main(int argc, char const *argv[]) {
         char *msg;
         char buffer[1024] = {0};
         int valread = read( new_socket , buffer, 1024);
-        if(strcmp(buffer,"beli")==0){            
+        if(strcmp(buffer,"beli")==0){
             if (*stok == 0){
                 msg = "0";
             } 

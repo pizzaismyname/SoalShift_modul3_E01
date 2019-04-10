@@ -38,7 +38,7 @@ int main(int argc, char const *argv[]) {
     while(1){
         char *msg;
         char buffer[1024] = {0};
-        scanf("%s",msg);
+        gets(msg);
         send(sock , msg , sizeof(msg) , 0 );
         if(strcmp(msg,"beli")==0){
             int valread = read( sock , buffer, sizeof(buffer));

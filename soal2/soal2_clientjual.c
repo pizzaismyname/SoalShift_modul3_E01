@@ -38,7 +38,9 @@ int main(int argc, char const *argv[]) {
     while(1){
         char *msg;
         char buffer[1024] = {0};
-        scanf("%s",msg);
-        send(sock , msg , sizeof(msg) , 0 );
+        gets(msg);
+        if(strcmp(msg,"tambah")==0){
+            send(sock , msg , sizeof(msg) , 0 );
+        }
     }
 }

@@ -8,6 +8,10 @@
 int num[1000];
 int ind = -1;
 
+int cmp (const void * a, const void * b) {
+   return ( *(int*)a - *(int*)b );
+}
+
 void *thread() {
     int this = ++ind;
 
@@ -31,6 +35,8 @@ int main (int argc, char* argv[]) {
     int n = argc - 1;
     pthread_t tid[n];
     
+    qsort(num,n,sizeof(int),cmp);
+
     for(i=0; i<n; i++){
         pthread_create(&(tid[i]), NULL, &thread, NULL);
     }

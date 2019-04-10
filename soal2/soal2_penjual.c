@@ -10,7 +10,7 @@
 
 #define PORT 8000
 
-key_t key = 1234;
+key_t key = 5678;
 int *stok, new_socket;
 
 pthread_t tid1, tid2;
