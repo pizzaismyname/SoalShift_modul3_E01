@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <ctype.h>
+#include <string.h>
 
 int agmal_WakeUp_Status = 0;
 int iraj_Spirit_Status = 100;
@@ -84,14 +86,6 @@ void *iraj()
     }
 }
 
-int printOptions()
-{
-    int i;
-    printf("[0] Agmal Ayo Bangun\n[1] Iraj Ayo Tidur\n[2] All Status\n");
-    scanf("%d", &i);
-    return i;
-}
-
 int main()
 {
     pthread_t agmalt, irajt;
@@ -102,19 +96,21 @@ int main()
 
     while (1)
     {
-        switch (printOptions())
-        {
-        case 0:
-            while (cmd_agmal > 0);
+		char str[17]; 
+		gets(str); 
+		int i;
+		for(i = 0; str[i] != '\0'; i++) str[i] = tolower(str[i]);
+		str[i] = '\0';
+		if(strcmp(str,"agmal ayo bangun") == 0){
+			while (cmd_agmal > 0);
             if(cmd_agmal == -1) cmd_agmal = 1;
-            break;
-        case 1:
-            while (cmd_iraj > 0);
+		}else if(strcmp(str,"iraj ayo tidur") == 0){
+			while (cmd_iraj > 0);
             if(cmd_iraj == -1) cmd_iraj = 1;
-            break;
-        case 2:
-            printf("Agmal WakeUp_Status = %d\nIraj Spirit_Status = %d\n", agmal_WakeUp_Status, iraj_Spirit_Status);
-            break;
-        }
+		}else if(strcmp(str,"all status") == 0){
+			printf("Agmal WakeUp_Status = %d\nIraj Spirit_Status = %d\n", agmal_WakeUp_Status, iraj_Spirit_Status);
+		}else{
+			printf("%s", str);
+		}
     }
 }

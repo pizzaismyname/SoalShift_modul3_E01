@@ -136,18 +136,9 @@ void *timer()
         {
             bath_remaining++;
         }
-        if (view == 1)
-        {
-            int a = rand() % 1 + 1;
-            if (a == 1)
-            {
-                monster_health -= 20;
-                printf("NPC: ATTACK!!!\n");
-            }
-        }
         max();
 
-        if (monster_health == 0 || monster_hygine == 0 || monster_health == 0)
+        if (monster_health <= 0 || monster_hygine <= 0 || monster_hygine <= 0)
         {
             printf("Ugh, I'm dead!\n");
             exit(0);
@@ -229,7 +220,9 @@ int main(void)
                         printf("Monster: VICTORY!!!\n");
                         view = 0;
                         f_stop = 0;
-                    }
+                    }					
+					monster_health -= 20;
+					printf("NPC: ATTACK!!!\n");
                 }
                 else if (a == 2)
                 {
