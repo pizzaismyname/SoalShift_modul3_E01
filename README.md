@@ -17,7 +17,7 @@ int cmp (const void * a, const void * b) {
 qsort(num,n,sizeof(int),cmp);
 ```
 
-- Thread untuk penghitungan faktorial
+- Thread untuk penghitungan faktorial (penghitungan dilakukan secara paralel)
 ```c
 int ind = -1;
 void *thread() {
