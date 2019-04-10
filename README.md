@@ -221,7 +221,7 @@ if(iraj_Spirit_Status <= 0){
 pthread_create(&agmalt, NULL, &agmal, NULL);
 pthread_create(&irajt, NULL, &iraj, NULL);
 ```
--Membaca input berupa _string_
+- Membaca input berupa _string_
 ```c
 char str[17]; 
 gets(str); 
